@@ -1,0 +1,19 @@
+defaults:
+  - uncertainty: gp
+
+model_name: autobotEgo
+uncertainty: False
+spectral_norm: null
+
+num_modes: 6
+hidden_size: 128
+num_encoder_layers: 2
+num_decoder_layers: 2
+tx_hidden_size: 384
+tx_num_heads: 16
+dropout: 0.1
+entropy_weight: 0.1
+kl_weight: 20.0
+use_FDEADE_aux_loss: False
+num_agent_feature: 39
+laplace_nll: False

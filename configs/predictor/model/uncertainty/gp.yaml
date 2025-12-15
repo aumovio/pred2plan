@@ -1,0 +1,4 @@
+gp_prob_num_rffs: 2048 # 2048 # 1024
+gp_traj_num_rffs: 2048
+gp_train_mc_samples: 1024
+gp_test_mc_samples: 1024

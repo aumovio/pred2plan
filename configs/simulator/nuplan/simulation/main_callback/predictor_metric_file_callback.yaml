@@ -1,0 +1,6 @@
+predictor_metric_callback:
+  _target_: simulation.utils.callbacks.PredictorMetricFileCallback
+  _convert_: 'all'
+
+  metric_file_output_path: ${simulator.output_dir}/${simulator.ol_metric_dir}       # Path to save metric files
+  scenario_metric_root: ${simulator.output_dir}/${simulator.ol_metric_dir} # A list of paths in which scenario metrics are saved

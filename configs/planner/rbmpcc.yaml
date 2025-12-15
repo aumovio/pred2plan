@@ -1,0 +1,80 @@
+modular_planner:
+  _target_: simulation.modular_planner.ModularPlanner
+  _convert_: "partial"
+  log_dir: ${simulator.output_dir}
+  visualization: False
+  cache_dir: ${paths.cache_root}/sim_cache/
+  planner:
+    # Planning Horizon
+    _target_: planner.planning_model.RBMPCC.RBMPCC
+    _convert_: "all"
+    verbose: false
+    time:
+      dt: 0.1
+      N: 50 
+
+    constraints:
+      box_scale: 100
+      # Vehicle Constraints
+      v_max: 13
+      a_max: 2.40 #3.0
+      a_min: -4.05 #-6.0
+      delta_max: 0.5235987755982988  # π / 6 # in rad
+      ddelta_max: 2.0 # in rad/s # we had 3.0
+      j_max: 4.10 # nuplan constraint is on 4.13 # we had 5.0
+      ay_max: 4.89 # lateral acceleration, in nuplan 4.89 # we had 4.5
+      # Vehicle geometry
+      length: 5.176
+      front_length: 4.096
+      rear_length: 1.127
+      width: 2.297
+      wheelbase: 3.089 
+      rob_r: 1.0 #1.0 # robot radius
+      # Road Topology
+      lane_width: 3.5 
+
+    # MPC weights
+    controller:
+      q_yaw: 16
+      q_a: 2.0
+      q_c: 0.1
+      q_l: 200
+      q_v: 2 # reward on progress 1.5
+      q_ho: 0.75e3 
+      q_so: 1e3 
+      q_ps: 1e5
+      q_lb: 6.5
+      q_na: 1e5
+      q_jx: 0.7
+      Q: [0.0, 0.0, 0.0, 0.0, 1.1, 10.0, 0.0] # x, y , psi, v, ax, delta, progress
+      R: [0.35, 0.3, 0] # costs of jerk, steering angle rate, projected velocity on reference path
+      decay: 0.1 # final weight at horizon end
+
+      S: 3 # scenarios/branches
+      MODES: 6 # Prediction Modes
+      MAX_HARD_OBS: 8 # number of considered dynamic agents for branching, hard-constraints
+      MAX_SOFT_OBS: 8 # number of considered agents in soft-constraint costs
+
+    # Ref path
+    reference:
+      M: 1001
+      s_final: 1000 
+
+    solver:
+      ipopt.max_iter: 1000
+      ipopt.print_level: 3 
+      print_time: 0 #
+      ipopt.max_wall_time: 30
+      ipopt.linear_solver: "ma57" # "ipopt.ma57_automatic_scaling" : "yes", #'ipopt.max_wall_time': 0.6,
+      ipopt.acceptable_iter: 5 # default 15
+      ipopt.acceptable_tol: 1e-4
+      ipopt.acceptable_obj_change_tol: 1e-2 # default 1e-6
+      ipopt.ma57_pre_alloc: 20
+      compiler: "shell"
+      jit: False #True
+      jit_options: 
+        compiler: "gcc"
+        flags: "-O0" # -O0 no optimization, -O1 light optimization, -O2 heavy optimization, -O3 superheavy optimization
+        # cache_dir: "/jit/"
+      # "ipopt.warm_start_init_point":  "yes",  "ipopt.warm_start_bound_push":  1e-4,  "ipopt.warm_start_bound_frac":  1e-4, "ipopt.mu_init" : 1e-3,
+      # "ipopt.warm_start_slack_bound_frac":  1e-4,  "ipopt.warm_start_slack_bound_push":  1e-4,  "ipopt.warm_start_mult_bound_push": 1e-4}

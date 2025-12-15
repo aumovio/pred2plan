@@ -1,0 +1,20 @@
+defaults:
+  - uncertainty: gp
+
+model_name: wayformer
+uncertainty: False
+spectral_norm: null
+
+use_map_image: False
+use_map_lanes: True
+num_modes: 6
+num_agent_feature: 29 # for 1s past
+num_map_feature: 29
+hidden_size: 256
+num_encoder_layers: 2
+num_decoder_layers: 8
+tx_hidden_size: 1024
+tx_num_heads: 4
+dropout: 0.1
+num_queries_dec: 64
+num_queries_enc: 192

@@ -1,0 +1,22 @@
+# https://hydra.cc/docs/configure_hydra/intro/
+
+
+# Hydra-specific config
+# ---------------------
+# The following stores single runs and multiruns (sweeps) in a hidden .hydra dir
+# enable color logging
+defaults:
+  - override hydra_logging: none
+  - override job_logging: none
+
+run:
+  dir: ${paths.logs_path}/${simulator.experiment_name}/${simulator.job_name}/${now:${date_format}}
+sweep:
+  dir: ${paths.logs_path}/${simulator.experiment_name}/multirun/${simulator.job_name}
+  subdir: ${now:${date_format}}_${hydra.job.num}
+
+job_logging:
+  handlers:
+    file:
+      # Incorporates fix from https://github.com/facebookresearch/hydra/pull/2242
+      filename: ${hydra.runtime.output_dir}/${simulator.experiment_name}.log

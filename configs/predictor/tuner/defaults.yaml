@@ -1,0 +1,12 @@
+
+find_lr: 
+  num_runs: 1
+  lr_range: 
+    - 1e-6
+    - 0.1
+  num_batches: 256
+  early_stop_multiplier: 20
+  val_check_interval: null
+  plot: True
+scale_batch_size: False
+measure_flops: True

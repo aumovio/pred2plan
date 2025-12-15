@@ -1,0 +1,31 @@
+model_name: ep_diffuser
+_target_: src.smart.model.ep.EPDiffuser
+lr: 0.0005
+lr_warmup_steps: 10
+lr_total_steps: ${predictor.trainer.max_epochs}
+#lr_min_ratio: 0.01 #0.05
+#n_rollout_closed_val: 32
+n_batch_wosac_metric: 10
+#n_vis_batch: 2
+#n_vis_scenario: 8
+#n_vis_rollout: 8
+#val_open_loop: True
+#val_closed_loop: True # True
+
+pred_deg: 6
+hidden_dim: 128
+space_dim: 2
+num_freq_bands: 64
+num_heads: 8
+head_dim: 16
+dropout: 0.1
+num_encoder_layers: 1
+num_denoiser_layers: 2
+pl2pl_radius: 150
+pl2a_radius: 150
+a2a_radius: 150
+num_historical_steps: 11
+num_future_steps: 80 # NOTE: 80
+weight_decay: 0.
+
+wosac_data_path: 'data/caches/cache_wosac/waymo/val/s0l11f80_official/'

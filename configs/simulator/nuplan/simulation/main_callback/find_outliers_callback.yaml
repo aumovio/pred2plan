@@ -1,0 +1,6 @@
+find_outliers_callback:
+  _target_: simulation.utils.callbacks.FindOutliersCallback
+  _convert_: 'all'
+
+  aggregator_save_path: ${simulator.aggregator_save_path}
+  threshold: 0.75

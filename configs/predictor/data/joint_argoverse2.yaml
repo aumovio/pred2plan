@@ -1,0 +1,28 @@
+defaults:
+  - joint_all
+
+ # av2: 5s history, 6s prediction, 11s total = 20
+train:
+  splits: ["argoverse2/train", "argoverse2/train_val"]
+  starting_frames: [20, 20]
+  tracks_to_predict:
+    selection: ["smart", "smart"]
+
+val:
+  splits: ["argoverse2/val"]
+  starting_frames: [20]
+  tracks_to_predict:
+    selection: ["official"]
+
+test:
+  splits: ["argoverse2/val"]
+  starting_frames: [20]
+  tracks_to_predict:
+    selection: ["official"]
+
+
+predict:
+  splits: ["argoverse2/val"]
+  starting_frames: [20]
+  tracks_to_predict:
+    selection: ["official"]

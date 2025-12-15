@@ -1,0 +1,7 @@
+defaults:
+  - defaults
+
+max_epochs: 64 #100 #150 #40
+batch_size: 1 #128 #32 #128q
+accumulate_grad_batches: 4
+weight_decay: 0.

@@ -1,0 +1,12 @@
+# aggregate nuplan defaults
+defaults:
+  - defaults
+  - nuplan/simulation/observation@observation: box_observation #box_observation #idm_agents_observation
+  - scenario_filter: mini
+
+data_root: "${paths.data_root}/nuplan_mini/mini"
+map_root:  "${paths.data_root}/nuplan_mini/maps"
+
+# scenario_filter: nuplan/common/scenario_filter/one_continuous_log
+# scenario_filter.log_names: ['2021.07.16.20.45.29_veh-35_01095_01486']
+# scenario_filter.limit_total_scenarios: 2

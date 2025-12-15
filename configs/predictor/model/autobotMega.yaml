@@ -1,0 +1,6 @@
+defaults:
+  - autobotKilo
+
+
+num_encoder_layers: 4
+num_decoder_layers: 4

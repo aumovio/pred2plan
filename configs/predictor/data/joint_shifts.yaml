@@ -1,0 +1,29 @@
+defaults:
+  - joint_all
+
+ # shifts: 5s history, 5s prediction, 10s total = 20
+
+train:
+  splits: ["shifts/train", "shifts/train_val"]
+  starting_frames: [10, 10]
+  tracks_to_predict:
+    selection: ["smart", "smart"]
+
+val:
+  splits: ["shifts/val"]
+  starting_frames: [10]
+  tracks_to_predict:
+    selection: ["official"]
+
+test:
+  splits: ["shifts/val"]
+  starting_frames: [10]
+  tracks_to_predict:
+    selection: ["official"]
+
+
+predict:
+  splits: ["shifts/val"]
+  starting_frames: [10]
+  tracks_to_predict:
+    selection: ["official"]

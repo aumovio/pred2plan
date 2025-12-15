@@ -1,0 +1,17 @@
+#control flags
+seed: 42
+debug: False
+train: True
+tune: False
+eval: True
+predict: False
+
+date_format: '%Y.%m.%d_%H.%M.%S'
+defaults: # union of configs, last one supersedes others
+  - predictor: training_marginal
+  - paths: local
+  - hydra: training
+  - _self_
+  - override: empty
+
+experiment_name: "debug"

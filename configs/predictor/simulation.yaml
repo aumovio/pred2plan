@@ -1,0 +1,16 @@
+
+data:
+  map_range: 300
+  future_required: 0
+  tracks_to_predict:
+    max_distance_to_ego: 100.0
+    do_filtering: False
+  verbose_preprocessing: True
+
+
+defaults: # union of configs, last one supersedes others
+  - data: marginal
+  - trainer: wayformer
+  - model: wayformer
+  - _self_
+

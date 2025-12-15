@@ -1,0 +1,6 @@
+
+defaults:
+  - autobot
+
+num_encoder_layers: 1
+num_decoder_layers: 1

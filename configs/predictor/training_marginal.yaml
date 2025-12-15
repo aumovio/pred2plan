@@ -1,0 +1,8 @@
+
+defaults: # union of configs, last one supersedes others
+  - trainer: defaults
+  - tuner: defaults
+  - callbacks: marginal
+  - data: marginal
+  - model: autobot
+  - _self_

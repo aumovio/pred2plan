@@ -1,0 +1,5 @@
+# aggregate nuplan defaults
+defaults:
+  - defaults
+  - nuplan/simulation/observation@observation: idm_agents_observation
+  - scenario_filter: test14_hard

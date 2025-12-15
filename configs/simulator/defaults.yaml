@@ -1,0 +1,118 @@
+# aggregate nuplan defaults
+defaults:
+  - nuplan/common@_here_: 
+    - default_experiment
+    - default_common
+    - default_submission
+
+  - nuplan/common/simulation_metric@simulation_metric: default_metrics
+
+  - nuplan/simulation/callback@callback: 
+    #- simulation_log_callback
+    - predictor_metric_callback
+
+  - nuplan/simulation/main_callback@main_callback:
+    - time_callback
+    - metric_file_callback
+    - predictor_metric_file_callback
+    - metric_aggregator_callback
+    - metric_summary_callback
+    - find_outliers_callback
+
+  - nuplan/common/splitter@splitter: nuplan
+
+  #- nuplan/simulation/observation@observation: box_observation
+  - nuplan/simulation/ego_controller@ego_controller: perfect_tracking_controller #two_stage_controller #perfect_tracking_controller #
+  - nuplan/simulation/planner@planner: null
+  - nuplan/simulation/simulation_time_controller@simulation_time_controller: 
+    - step_simulation_time_controller
+  - nuplan/simulation/metric_aggregator@metric_aggregator:
+    - closed_loop_nonreactive_agents_weighted_average
+
+  #- scenario_filter: test14_hard
+
+  # - nuplan/nuboard@nuboard:
+  #   - default_nuboard
+
+  # - override hydra/job_logging: none                            # Disable hydra's logging
+  # - override hydra/hydra_logging: none                          # Disable hydra's logging
+
+# ==================================== override =============================================
+# Directory structure
+data_root: "${paths.data_root}/nuplan/nuplan-v1.1/splits/test"
+map_root:  "${paths.data_root}/nuplan/maps"
+sensor_root: "${paths.data_root}/nuplan/nuplan-v1.1/sensor_blobs"
+
+group: ${paths.logs_path} # This is where results, logs, config, etc. are saved
+job_name: ${hydra:runtime.choices.predictor.model}_${hydra:runtime.choices.planner} # Job name, as defined in the specific yaml files.
+experiment_name: 'closedLoop'
+
+date_format: '%Y.%m.%d_%H.%M.%S'
+experiment_uid: ${now:${date_format}}              # Unique Id of the experiment, default to timestamp
+experiment: ${simulator.experiment_name}/${simulator.job_name}/${simulator.experiment_uid}      # Unique name of the experiment
+output_dir: ${simulator.group}/${simulator.experiment}                  # Output directory to save all training artifacts
+cl_metric_dir: ${simulator.metric_dir}                                 # Metric dir name to save metric results.
+ol_metric_dir: openLoop_metrics
+metric_dir: metrics
+simulation_log_dir: simulation_log_dir
+runner_report_file: runner_report.parquet           # Name of the parquet file the RunnerReport will be stored to
+log_config: false                                   # Whether to log the final config after all overrides and interpolations
+
+aggregated_metric_folder_name: 'aggregator_metric'         # Aggregated metric folder name
+aggregator_save_path: ${simulator.output_dir}/${simulator.aggregated_metric_folder_name}
+
+
+
+
+# Execution
+max_number_of_workers: null                         # Set null to disable threading for simulation execution
+seed: ${seed}                                       # Random seed value.
+enable_profiling: false                             # Whether to enable profiler which will be dumped to "profiling" folder
+gpu: true                                           # Whether to use available GPUs during training/simulation
+
+# Logger
+logger_level: info                                  # Level of logger
+logger_format_string: null                          # Logger format string, set null to use the default format string
+
+#CHALLENGE = 'closed_loop_nonreactive_agents'
+# Progress Visualization
+enable_simulation_progress_bar: False # Show for every simulation its progress
+
+# Simulation Setup
+simulation_history_buffer_duration: 2.0  # [s] The look back duration to initialize the simulation history buffer with
+
+# Number (or fractional, e.g., 0.25) of GPUs available for single simulation (per scenario and planner).
+# This number can also be < 1 because we allow multiple models to be loaded into a single GPU.
+# In case this number is 0 or null, no GPU is used for simulation and all cpu cores are leveraged
+# Note, that the user have to make sure that if a number < 1 is chosen, the model will fit 1 / num_gpus into GPU memory
+number_of_gpus_allocated_per_simulation: 0
+
+# This number specifies number of CPU threads that are used for simulation
+# In case this is null, then each simulation will use unlimited resources.
+# That will typically swamp the host computer, leading to slowdowns and failure.
+number_of_cpus_allocated_per_simulation: 1
+
+# Set false to disable metric computation
+run_metric: true
+
+# Set to rerun metrics with existing simulation logs without setting run_metric to false.
+simulation_log_main_path: null
+
+# If false, continue running the simulation even it a scenario has failed
+exit_on_failure: false
+
+# Maximum number of workers to be used for running simulation callbacks outside the main process
+max_callback_workers: 4
+
+# Disable callback parallelization when using the Sequential worker. By default, when running with the sequential worker,
+# on_simulation_end callbacks are not submitted to a parallel worker.
+disable_callback_parallelization: true
+
+# Distributed processing mode. If multi-node simulation is enable, this parameter selects how the scenarios distributed
+# to each node. The modes are:
+#  - SCENARIO_BASED: Works in two stages, first getting a list of all, scenarios to process, then breaking up that
+#                    list and distributing across the workers
+#  - LOG_FILE_BASED: Works in a single stage, breaking up the scenarios based on what log file they are in and
+#                    distributing the number of log files evenly across all workers
+#  - SINGLE_NODE: Does no distribution, processes all scenarios in config
+distributed_mode: 'SINGLE_NODE'

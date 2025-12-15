@@ -1,0 +1,59 @@
+devices: [ 0 ]
+resume_ckpt_path: null
+job_name: ${hydra:runtime.choices.predictor/model}
+experiment_name: "openLoop"
+
+# on HOLM: Allowed precision values: ('transformer-engine', 'transformer-engine-float16', '16-true', '16-mixed', 'bf16-true', 'bf16-mixed', '32-true', '64-true', 64, 32, 16, '64', '32', '16', 'bf16')   
+precision: "32-true" #"BFloat16-mixed" # "16-mixed", "32-true", "64-true", "16-true" # BFloat16-mixed only supported by modern accelerators (>RTX3090 or >A100, not V100)
+
+
+max_epochs: 60
+accumulate_grad_batches: 1
+early_stopping: False
+val_check_interval: 12
+learning_rate: 0.0005 # 0.00075 # 1e-3 for lanegcn
+epsilon: 0.0001 # epsilon value in optimizer (e.g. in Adam for numerical stability, smoothing adaptivity)
+optimizer: AdamW #According to PyTorch naming
+scheduler: OneCycleLR # originally: MultiStepLR
+ewc_lambda: 2000
+batch_size: 256 
+grad_clip_norm: 5
+weight_decay: 0.001
+
+metrics:  
+  - miss_rate
+  #- rankBest
+  - minADE
+  - minFDE
+  - minADE6
+  - minFDE6
+  - minFDE_hat
+  - minFDE6_hat
+  - brier_minFDE6
+  - minNLL
+  - mixtureNLL
+  - softmaxEntropy
+  - minFEntropy_hat
+  - mixtureFEntropy_hat
+  - avgWassersteinSimilarity
+  - spectralDiversity
+  - weightedSpectralDiversity
+
+
+logger:
+  name: "aim" # only current option
+  exp_name: 'expname'
+  run_name: null
+  resume_run_hash: null
+  terminal_logs: True
+  extensive_profiling: False
+  monitor_device: False
+  profiling: null #options: simple, advanced, pytorch, xla
+  log_every_n_steps: 50
+  scenes_to_plot: ['scene-1077_c3cd792e55e44edf935bc90b489bc587_3be9d2705879419f8f3afc08949dca57', 'sd_nuplan_v1.1_a66aff0f6df35af4', 'sd_nuplan_v1.1_1befbf3eb1005b75']
+
+
+# official evaluation
+nuscenes_dataroot: ${paths.data_root}
+eval_nuscenes: False
+eval_waymo: False

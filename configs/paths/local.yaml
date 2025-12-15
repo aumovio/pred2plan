@@ -1,0 +1,7 @@
+
+## cluster-specific settings
+
+logs_path: "your_path_to_logs"
+artifacts_root: "${paths.logs_path}"
+data_root: "your_path_to_data"
+cache_root: "${paths.data_root}"

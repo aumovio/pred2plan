@@ -1,0 +1,13 @@
+# control flags
+seed: 42
+debug: False
+
+date_format: '%Y.%m.%d_%H.%M.%S'
+defaults: # union of configs, last one supersedes others
+  - simulator: nuplan_nonreactive
+  - predictor: simulation
+  - planner: idm
+  - paths: local
+  - hydra: simulation
+  - _self_
+  - override: empty

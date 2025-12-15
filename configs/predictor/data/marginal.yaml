@@ -1,0 +1,86 @@
+defaults:
+  - defaults
+
+# data split configurations
+
+ # history trajectory starts at this frame for each training dataset
+ # Note, starting frame should depend on past_len + future_len and dataset defined "current_time_step" if applicable
+ # nuscenes: 2s history, 6s prediction, 8s total = 19
+ # av2: 5s history, 6s prediction, 11s total = 49
+ # waymo: 1s history, 1 current, 8s prediction, 9.1s total = 9
+ # nuplan: n.d. history, n.d. prediction, 15s total = 49 self-selected
+
+train:
+  splits: ["all"]
+  starting_frames: [0]
+  filter:
+    sample_num: null # as percentage <=1.0 or as multiples of data_chunk_size for each training dataset
+    ego_track_difficulty: null
+    ego_track_types: null
+    center_track_difficulty: null
+    center_object_types: null
+    center_track_types: null
+  tracks_to_predict: 
+    selection: ["kalman"] # either ego, official, kalman or all
+
+val:
+  splits: ["all"]
+  starting_frames: [0]
+  filter:
+    sample_num: null # as percentage <=1.0 or as multiples of data_chunk_size for each training dataset
+    ego_track_difficulty: null
+    ego_track_types: null
+    center_track_difficulty: null
+    center_object_types: null
+    center_track_types: null
+  tracks_to_predict: 
+    selection: ["kalman"] # either ego, official, kalman or all
+
+test:
+  splits: ["all"]
+  starting_frames: [0]
+  filter:
+    sample_num: null # as percentage <=1.0 or as multiples of data_chunk_size for each training dataset
+    ego_track_difficulty: null
+    ego_track_types: null
+    center_track_difficulty: null
+    center_object_types: null
+    center_track_types: null
+  tracks_to_predict: 
+    selection: ["kalman"] # either ego, official, kalman or all
+
+predict:
+  splits: ["all"]
+  starting_frames: [0]
+  filter:
+    sample_num: null # as percentage <=1.0 or as multiples of data_chunk_size for each training dataset
+    ego_track_difficulty: null
+    ego_track_types: null
+    center_track_difficulty: null
+    center_object_types: null
+    center_track_types: null
+  tracks_to_predict: 
+    selection: ["kalman"] # either ego, official, kalman or all
+
+
+# caching
+cache_metadata: ["scenario_id", "dataset_split", "center_objects_type", "center_track_difficulty", "center_track_type", "ego_track_difficulty", "ego_track_type"]
+cache_chunk_size: 16
+# loading
+bucket_size: 1
+
+# processing related
+masked_attributes: [ 'z_axis, size' ] # 'z_axis, size, velocity, acceleration, heading'
+
+center_offset_of_map: [ 30.0, 0.0 ] # center offset of the map
+max_num_agents: 32
+map_range: 100
+max_num_roads: 384
+max_points_per_lane: 30 # will be overwritten if manually_split_lane is True
+
+
+# # lane split related params # OBSOLETE
+# manually_split_lane: False # if True, lanes will be split with the same number of points and length, else, lanes will be split with the same number of points but varying length
+# point_sampled_interval: 1 # only used when manually_split_lane is True, the interval of points sampled from the original lane
+# num_points_each_polyline: 20 # only used when manually_split_lane is True, the number of points in each polyline
+# vector_break_dist_thresh: 1.0 # only used when manually_split_lane is True, the distance threshold to break the vector to split the lane

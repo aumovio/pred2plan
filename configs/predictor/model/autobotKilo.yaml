@@ -1,0 +1,5 @@
+
+defaults:
+  - autobot
+  
+hidden_size: 256

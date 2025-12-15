@@ -1,0 +1,3 @@
+defaults:
+    - common_metrics
+    - simulation_closed_loop_nonreactive_agents

@@ -1,0 +1,29 @@
+defaults:
+  - joint_all
+
+ # waymo: 1s history, 1 current, 8s prediction, 9.1s total = 0
+
+train:
+  splits: ["waymo/train", "waymo/train_val"]
+  starting_frames: [0, 0]
+  tracks_to_predict:
+    selection: ["smart", "smart"]
+
+val:
+  splits: ["waymo/val"]
+  starting_frames: [0]
+  tracks_to_predict:
+    selection: ["official"]
+
+test:
+  splits: ["waymo/val"]
+  starting_frames: [0]
+  tracks_to_predict:
+    selection: ["official"]
+
+
+predict:
+  splits: ["waymo/val"]
+  starting_frames: [0]
+  tracks_to_predict:
+    selection: ["official"]

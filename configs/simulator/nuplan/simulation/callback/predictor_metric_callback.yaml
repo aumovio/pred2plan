@@ -1,0 +1,9 @@
+predictor_metric_callback:
+  _target_: simulation.utils.callbacks.PredictorMetricCallback
+  _convert_: 'all'
+
+  # output_directory: ${simulator.output_dir}
+  output_directory: ${simulator.output_dir}
+  metric_dir: ${simulator.ol_metric_dir}      # Simulation log dir
+  metric_keys: ${predictor.trainer.metrics}
+  # serialization_type: "msgpack"           # A way to serialize output, options: ["pickle", "msgpack"]

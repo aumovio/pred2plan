@@ -1,0 +1,28 @@
+defaults:
+  - marginal
+
+cache_root: "${paths.cache_root}/caches/cache_wayformer" # currently we map everything to wayformer since the data preprocessing is same
+
+train:
+  splits: ["nuscenes/train", "argoverse2/train", "waymo/train", "nuscenes/train_val", "argoverse2/train_val", "waymo/train_val", "shifts/train", "shifts/train_val"]
+  starting_frames: [10, 40, 0, 10, 40, 0, 30, 30]
+  tracks_to_predict:
+    selection: ["official", "official", "official", "official", "official", "official", "official", "official"]
+
+val:
+  splits: ["nuscenes/val", "argoverse2/val", "waymo/val", "shifts/val"]
+  starting_frames: [10, 40, 0, 30]
+  tracks_to_predict:
+    selection: ["official", "official", "official", "official"]
+
+test:
+  splits: ["nuplan/val"]
+  starting_frames: [40]
+  tracks_to_predict:
+    selection: ["kalman"]
+
+predict:
+  splits: ["nuplan/val"]
+  starting_frames: [40]
+  tracks_to_predict:
+    selection: ["kalman"]

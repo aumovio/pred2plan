@@ -1,0 +1,43 @@
+# global configurations
+max_processing_chunk_size: 2000
+drop_last: False
+data_root: "${paths.data_root}/scenarionet"
+cache_root: "${paths.cache_root}/scenarionet/caches/cache_${hydra:runtime.choices.predictor/model}"
+verbose_preprocessing: False
+plot_preprocessing: False
+# cache-specific
+load_num_workers: 1
+cache_chunk_size: 4
+bucket_size: 1
+overwrite_cache: False # overwrite existing cache
+cache_metadata: ["scenario_id", "dataset_split"]
+prefetch_factor: 2
+store_data_in_memory: False # store data in memory
+compression_cache: ".gz" # cache compression, registered extensions are ['bz', 'bz2', 'gz', 'lzma', 'xz', 'pkl', 'pickle', 'zip']
+compression_source: ".gz"
+pin_memory: True
+
+# agent related
+past_len: 11 # 0.1s sampling frequency (10Hz) (including current time frame)
+future_len: 60 # 0.1s sampling frequency (10Hz)
+past_required: 2 # required past observations frames (including current time frame)
+past_allowed: ${predictor.data.past_len} # allowed past observation frames (everything else is masked)
+future_required: 40 # required future observation frames for track selection
+trajectory_sample_interval: 1 # sample interval for the trajectory
+
+# tracks_to_predict options:
+tracks_to_predict:
+  min_track_difficulty: 1.0 # optional, if tracks_to_predict selection is "kalman"
+  max_distance_to_ego: 25.0 # minimum max distance across all timestamps
+  max_num_agents: 32 # total
+  allowed_object_types: [ 'VEHICLE', 'PEDESTRIAN', 'CYCLIST'] # cached objects
+  do_filtering: True
+
+# map related
+line_type: [ 'lane','stop_sign','road_edge','road_line','crosswalk','speed_bump', 'obstacles'] #['lane','stop_sign','road_edge','road_line','crosswalk','speed_bump', "sidewalk"]
+masked_attributes: [ 'z_axis, size' ] # 'z_axis, size, velocity, acceleration, heading'
+map_range: 100
+
+# defect scenarios to be discarded
+blacklist: ['sd_waymo_v1.2_67756f6b0d4304dd', 'scene-0907_8f0ad27e9055451286c1bd3c99fb411d_e9e1871dddf94ba7ba46a76dcf027bab']
+whitelist: []

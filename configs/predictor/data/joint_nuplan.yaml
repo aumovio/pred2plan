@@ -1,0 +1,29 @@
+defaults:
+  - joint_all
+
+ # nuplan: n.d. history, n.d. prediction, 15s total = 49 self-selected
+
+train:
+  splits: ["nuplan/training", "nuplan/val"]
+  starting_frames: [40, 40]
+  tracks_to_predict:
+    selection: ["smart"]
+
+val:
+  splits: ["nuplan/val"]
+  starting_frames: [40]
+  tracks_to_predict:
+    selection: ["kalman"]
+
+test:
+  splits: ["nuplan/val"]
+  starting_frames: [40]
+  tracks_to_predict:
+    selection: ["kalman"]
+
+
+predict:
+  splits: ["nuplan/val"]
+  starting_frames: [40]
+  tracks_to_predict:
+    selection: ["kalman"]

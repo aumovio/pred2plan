@@ -1,0 +1,7 @@
+defaults:
+  - mpcc
+
+modular_planner:
+  planner:
+    controller:
+      S: 3 # scenarios/branches

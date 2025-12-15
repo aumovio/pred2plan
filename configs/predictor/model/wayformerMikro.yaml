@@ -1,0 +1,5 @@
+defaults:
+  - wayformer
+
+hidden_size: 128 #256
+num_queries_enc: 96 #192

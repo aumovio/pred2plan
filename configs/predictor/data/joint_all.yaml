@@ -1,0 +1,48 @@
+defaults:
+  - joint
+
+cache_root: "${paths.cache_root}/scenarionet/caches/cache_smart" # currently we map everything to wayformer since the data preprocessing is same
+
+train:
+  splits: ["nuscenes/train", "argoverse2/train", "waymo/train", "nuscenes/train_val", "argoverse2/train_val", "waymo/train_val", "shifts/train", "shifts/train_val", "nuplan/training", "nuplan/val"]
+  starting_frames: [0, 20, 0, 0, 20, 0, 10, 10, 40, 40]
+  tracks_to_predict:
+    selection: ["smart", "smart", "smart", "smart", "smart", "smart", "smart", "smart", "smart", "smart"]
+
+val:
+  splits: ["waymo/val"]
+  starting_frames: [0]
+  tracks_to_predict:
+    selection: ["official"]
+
+test:
+  splits: ["waymo/val"]
+  starting_frames: [0]
+  tracks_to_predict:
+    selection: ["official"]
+
+
+predict:
+  splits: ["waymo/val"]
+  starting_frames: [0]
+  tracks_to_predict:
+    selection: ["official"]
+
+# val:
+#   splits: ["nuscenes/val", "argoverse2/val", "waymo/val", "shifts/val"]
+#   starting_frames: [0, 20, 0, 10]
+#   tracks_to_predict:
+#     selection: ["official", "official", "official", "official"]
+
+# test:
+#   splits: ["nuscenes/val", "argoverse2/val", "waymo/val", "shifts/val"]
+#   starting_frames: [0, 20, 0, 10]
+#   tracks_to_predict:
+#     selection: ["official", "official", "official", "official"]
+
+
+# predict:
+#   splits: ["nuscenes/val", "argoverse2/val", "waymo/val", "shifts/val"]
+#   starting_frames: [0, 20, 0, 10]
+#   tracks_to_predict:
+#     selection: ["official", "official", "official", "official"]

@@ -1,0 +1,5 @@
+# aggregate nuplan defaults
+defaults:
+  - defaults
+  - nuplan/simulation/observation@observation: box_observation 
+  - scenario_filter: test14_hard

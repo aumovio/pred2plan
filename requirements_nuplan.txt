@@ -1,0 +1,13 @@
+nuplan-devkit @ git+https://github.com/motional/nuplan-devkit.git
+-e git+https://github.com/autonomousvision/tuplan_garage.git#egg=tuplan_garage
+retry==0.9.2
+aioboto3==15.0.0
+pyquaternion==0.9.9
+imageio==2.37.0
+imageio-ffmpeg==0.6.0
+rasterio==1.4.3
+pyarrow==21.0.0
+ray==2.48.0
+ujson==5.10.0
+bokeh==2.4.3
+pyinstrument==5.0.3

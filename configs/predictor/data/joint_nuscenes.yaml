@@ -1,0 +1,29 @@
+defaults:
+  - joint_all
+
+ # nuscenes: 2s history, 6s prediction, 8s total = 0
+
+train:
+  splits: ["nuscenes/train", "nuscenes/train_val"]
+  starting_frames: [0, 0]
+  tracks_to_predict:
+    selection: ["smart", "smart"]
+
+val:
+  splits: ["nuscenes/val"]
+  starting_frames: [0]
+  tracks_to_predict:
+    selection: ["official"]
+
+test:
+  splits: ["nuscenes/val"]
+  starting_frames: [0]
+  tracks_to_predict:
+    selection: ["official"]
+
+
+predict:
+  splits: ["nuscenes/val"]
+  starting_frames: [0]
+  tracks_to_predict:
+    selection: ["official"]
